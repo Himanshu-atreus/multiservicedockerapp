@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "3001:3001"
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/mydb
+      ACCESS_SECRET_KEY: de37bbab03b0380009e4b2f9c6fa6dcf95ae3acfc63125ce7b580d8d490eb6f92579843a4ce44011998dbec04fab568e5de224b042b2c2cf284acfbe03f1f4a6
+
+  blog-service:
+    build:
+      context: ./blog-service
+    ports:
+      - "3002:3002"
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/mydb
+
+  comment-service:
+    build:
+      context: ./comment-service
+    ports:
+      - "3003:3003"
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/mydb
+
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  postgres_data:
