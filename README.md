@@ -161,11 +161,4 @@ description	TEXT	Not Null
 username	VARCHAR(100)	Foreign Key
 
 
-Troubleshooting
-Docker issues:
-Ensure Docker is running and you have sufficient permissions.
-Database connection errors:
-Check the DATABASE_URL in .env.
 
-AWS issues:
-Verify EC2 security groups allow traffic on required ports (3001-3003).
